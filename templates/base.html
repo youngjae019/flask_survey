@@ -6,8 +6,8 @@
     <title>Survey</title>
 </head>
 <body>
-    {% message get_flashed_messages() %}
-        <p>{{msg}}</p>
+    {% for message in get_flashed_messages() %}
+        <p>{{ msg }}</p>
     {% endfor %}
     {% block content %}
     {% endblock %}

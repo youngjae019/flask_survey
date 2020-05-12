@@ -14,6 +14,14 @@ def survey_home_page():
 
     return render_template("start_survey.html", survey=survey)
 
+@app.route("/begin", methods=["POST"])
+def start_survey():
+    """Clear the session of responses"""
+
+    session[RESPONSES] = []
+
+    return redirect("/questions/0")
+
 @app.route("/questions/<int:qid>")
 def show_question(qid):
     """Show current question"""
@@ -39,7 +47,7 @@ def handle_question():
     choice = request.form['answer'] # get choice response
     responses = session[RESPONSES] # add to session RESPONSES list
     responses.append(choice)
-    session[RESPONSES] = responses
+    session[RESPONSES] = responses # this will allow the app to remember the results
 
     if (len(responses) == len(survey.questions)):
         return redirect("/complete")
@@ -48,6 +56,6 @@ def handle_question():
 
 @app.route("/complete")
 def complete():
-    """Survey complete. Show completion page."""
+    """Last page of survey, completion page"""
 
     return render_template("complete.html")
